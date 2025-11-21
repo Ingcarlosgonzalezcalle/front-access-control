@@ -1,0 +1,228 @@
+@use "@coreui/coreui/scss/coreui" as * with ( 
+  $enable-deprecation-messages: false,
+);
+@use "@coreui/chartjs/scss/coreui-chartjs";
+@use "vendors/simplebar";
+
+body {
+  background-color: var(--cui-tertiary-bg);
+   font-family: 'Roboto', !important;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  width: 100% !important;
+}
+
+select, input, td, tr {
+  font-family: 'Roboto' , !important;
+  font-size: 12px !important;
+}
+
+
+
+.wrapper {
+  width: 100%;
+  padding-inline: var(--cui-sidebar-occupy-start, 0) var(--cui-sidebar-occupy-end, 0);
+  will-change: auto;
+  @include transition(padding .15s);
+}
+
+.header > .container-fluid,
+.sidebar-header {
+  min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
+}
+
+.sidebar-brand-full {
+  margin-left: 3px;
+}
+
+.sidebar-header {
+  .nav-underline-border {
+    --cui-nav-underline-border-link-padding-x: 1rem;
+    --cui-nav-underline-border-gap: 0;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
+  }
+}
+
+.sidebar-toggler {
+  margin-inline-start: auto;
+}
+
+.sidebar-narrow,
+.sidebar-narrow-unfoldable:not(:hover) {
+  .sidebar-toggler {
+    margin-inline-end: auto;
+  }
+}
+
+.header > .container-fluid + .container-fluid {
+  min-height: 3rem;
+}
+
+.footer {
+  min-height: calc(3rem + 1px); // stylelint-disable-line function-disallowed-list
+}
+
+@include color-mode(dark) {
+  body {
+    background-color: var(--cui-dark-bg-subtle);
+  }
+
+  .footer {
+    --cui-footer-bg: var(--cui-body-bg);
+  }
+}
+
+
+/*5a75c0 */
+.sidebar-dark {
+  --cui-body-bg: #5575cc !important;
+  --cui-secondary-bg: #6c91f7 !important;
+  --cui-border-color: #6c91f7 !important;
+}
+.sidebar-nav .nav-link.active {
+  --cui-sidebar-nav-link-active-color: #4e4e4e !important;
+  --cui-sidebar-nav-link-active-bg: #8998da !important;
+}
+
+.sidebar-nav .nav-link:hover {
+ background-color: #8998da !important;
+  --cui-sidebar-nav-link-active-bg: #abb3c9 !important;
+}
+
+/*
+
+    color: var(--cui-sidebar-nav-link-active-color);
+    background: var(--cui-sidebar-nav-link-active-bg);
+
+.sidebar-dark { 
+--cui-body-color: rgba(255, 255, 255, 0.87); 
+--cui-body-bg: #212631; 
+--cui-emphasis-color: #fff; 
+--cui-secondary-color: rgba(255, 255, 255, 0.6); 
+--cui-secondary-bg: #323a49; 
+--cui-tertiary-color: rgba(255, 255, 255, 0.38); 
+--cui-tertiary-bg: rgb(41.5, 48, 61); 
+--cui-border-color: #323a49; }
+
+
+*/
+
+
+.loading.cover-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.loading.cover-page {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading .ant-spin {
+  color: #3e79f7;
+}
+
+
+.css-14vsxfy {
+  margin-top: 45px !important;
+}
+
+
+.ant-divider-inner-text{
+   margin-bottom: -10px !important;
+}
+
+.ant-form-item{
+   margin-bottom: 10px !important;
+}
+
+.rbt-aux .btn-close {
+    color: transparent;
+}
+
+.rbt-close-content{
+ right: 0.75rem !important;
+}
+
+.loading.cover-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.loading.cover-page {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading .ant-spin {
+  color: #3e79f7;
+}
+/* 5856d6  514fdf */
+.ant-btn-primary {
+  background-color: #5575cc !important;
+  border-color: #5f82e2 !important;
+}
+.ant-btn-primary:hover {
+  background-color: #3634b9 !important;
+  border-color: #37359e !important;
+}
+.ant-input[readonly] {
+  background-color: #f0f0f0 !important;
+}
+
+.css-14vsxfy {
+  margin-top: 45px !important;
+}
+
+
+.ant-divider-inner-text{
+   margin-bottom: -10px !important;
+}
+
+.ant-form-item{
+   margin-bottom: 10px !important;
+}
+
+.ant-form-item-label{
+   margin-bottom: -5px !important;
+}
+
+
+.leaflet-container {
+  width: 100% !important;
+  height: 550px !important;
+}
+
+.custom-marker .marker-number {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border-radius: 30%;
+  width: 35px;
+  height: 25px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.4);
+}
