@@ -2,6 +2,7 @@ import React from 'react'
 
 
 const AdminUsers = React.lazy(() => import('./views/params/AdminUsers'))
+const AdminPersons = React.lazy(() => import('./views/params/AdminPersons'))
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -61,6 +62,7 @@ const routes = [
 
 
   { path: '/admin/users', name: 'Users', element: AdminUsers },
+  { path: '/person/insert', name: 'Person', element: AdminPersons },
 
 
   { path: '/theme', name: 'Theme', element: Colors, exact: true },

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom'
-import userService from "../../services/user-service.js";
+import personService from "../../services/person-service.js";
 import { SearchOutlined } from "@ant-design/icons";
 import { Card, Form, Pagination, Spin, Table, Button, Input, Divider } from "antd";
 import { ToastContainer, toast } from 'react-toastify';
 
-const AdminUsers = () => {
+const AdminPersons = () => {
   let navigate = useNavigate();
   const [list, setList] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
@@ -15,7 +15,6 @@ const AdminUsers = () => {
 
   ////TODO ESTO ES DE PAGINACION/////////
   const [findName, setFindName] = useState("");
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -34,10 +33,13 @@ const AdminUsers = () => {
     { id: false, name: "INACTIVO" },
   ];
 
-  const roleList = [
-    { id: "SUPERADMIN", name: "SUPERADMIN" },
-    { id: "ADMINISTRADOR", name: "ADMINISTRADOR" },
-    { id: "DIGITADOR", name: "DIGITADOR" },
+  const typeList = [
+    { id: "ESTUDIANTE", name: "ESTUDIANTE" },
+    { id: "PROFESOR", name: "PROFESOR" },
+    { id: "DIRECTOR", name: "DIRECTOR" },
+    { id: "COORDINADOR", name: "COORDINADOR" },
+    { id: "FUNCIONARIO", name: "FUNCIONARIO" },
+    { id: "EXTERNO", name: "EXTERNO" },
   ];
 
   const {
@@ -57,9 +59,9 @@ const AdminUsers = () => {
   }
 
   const capitalizeWords = (e) => {
-    const role = getValues("role");
-    console.log(role)
-    if (role == "ADMINISTRADOR")
+    const type = getValues("type");
+    console.log(type)
+    if (type == "ADMINISTRADOR")
       return;
     let value = e.target.value;
     value = value
@@ -71,37 +73,13 @@ const AdminUsers = () => {
     setValue("name", value);
   };
 
-  const toCamelCase = (e) => {
-    let value = e.target.value;
-    value = value
-      .replace(/(?:^\w|[A-Z]|\b\w|\s+|_|\-|\^)/g, (match, index) =>
-        index === 0 ? match.toLowerCase() : match.toUpperCase()
-      )
-      .replace(/\s+/g, '')
-      .replace(/[^a-zA-Z0-9]/g, '');
-    setValue("username", value);
-  };
-
-  const toLowerCase = (e) => {
-    let value = e.target.value;
-    value = value.toLowerCase()
-    setValue("username", value);
-  };
-
-
-  const toLowerCaseMail = (e) => {
-    let value = e.target.value;
-    value = value.toLowerCase()
-    setValue("email", value);
-  };
-
 
 
   const getListUsers = async () => {
     setLoading(true)
     const limit = 10
     const findName = ""
-    const listado = await userService.list(page, limit, findName);
+    const listado = await personService.list(page, limit, findName);
     if (listado)
       setList(listado.data);
     setTotal(listado.total)
@@ -110,15 +88,12 @@ const AdminUsers = () => {
 
   const update = async () => {
     const id = getValues("id");
-    const username = getValues("usernameForm");
-    const password = getValues("passwordForm");
-    const role = getValues("role");
     const name = getValues("name");
-    const leader = getValues("leader");
-    const email = getValues("email");
+    const type = getValues("type");
+    const identification = getValues("identification");
     const status = getValues("status");
-    const data = { id, username, password, role,name,leader,email,status };
-    const success = await userService.update(data);
+    const data = { id, name,type,identification,status };
+    const success = await personService.update(data);
     if (success) {
       reset();
       getListUsers();
@@ -137,15 +112,12 @@ const AdminUsers = () => {
 
   const customSubmit = async (dataForm) => {
 
-    const username = getValues("usernameForm");
-    const password = getValues("passwordForm");
-    const role = getValues("role");
     const name = getValues("name");
-    const leader = getValues("leader");
-    const email = getValues("email");
+    const type = getValues("type");
+    const identification = getValues("identification");
     const status = getValues("status");
-    const data = {  username, password, role,name,leader,email,status };
-    const response = await userService.insert(data);
+    const data = { name,type,identification,status };
+    const response = await personService.insert(data);
     if (response.success) {
       reset();
       getListUsers();
@@ -163,14 +135,12 @@ const AdminUsers = () => {
   };
 
   const getUser = async (userId) => {
-    const user = await userService.get(userId);
+    const user = await personService.get(userId);
     if (user) {
       setValue("id", user.id);
       setValue("name", user.name);
-      setValue("usernameForm", user.username);
-      setValue("email", user.email);
-      setValue("role", user.role);
-      setValue("leader", user.leader);
+      setValue("identification", user.identification);
+      setValue("type", user.type);
       setValue("status", user.status);
       setShowEdit(true);
       setShowSave(false);
@@ -186,7 +156,6 @@ const AdminUsers = () => {
     getListUsers();
     setValue("usernameForm", "")
     setValue("identification", "")
-    setValue("passwordForm", "")
     reset();
   }, [page, pageSize]);
 
@@ -204,12 +173,12 @@ const AdminUsers = () => {
           >
             <div className="row">
               <div className="card-title">
-                <h4 className="text-secondary" >Datos del usuario</h4>
+                <h4 className="text-secondary" >Datos de la persona</h4>
               </div>
 
 
               <div className=" col-12 d-none">
-                <label>Id usuario</label>
+                <label>Id persona</label>
                 <input
                   readOnly={true}
                   type="text"
@@ -238,60 +207,25 @@ const AdminUsers = () => {
 
 
 
-              <div className=" col-12 col-sm-12">
-                <label>Username</label>
-                <input
-                  type="text"
-                  autoComplete="off"
-                  onKeyUp={toLowerCase}
-                  className="form-control"
-                  {...register("usernameForm")}
-                />
-              </div>
-
-
-
-
-
-
               <div className=" col-12">
-                <label>Email</label>
+                <label>Identificación</label>
                 <input
                   type="text"
                   autoComplete="off"
-                  onKeyUp={toLowerCaseMail}
                   className="form-control"
-                  {...register("email")}
+                  {...register("identification")}
                 />
               </div>
 
 
 
-              <div className="col-12">
-                <label>Password</label>
-                <Controller
-                  name="passwordForm"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Input.Password
-                      {...field}
-                      autoComplete="new-password" // Aquí va el atributo correcto
-                      placeholder="Campo password"
-                    />
-                  )}
-                />
-                {errors.passwordForm?.type === "required" && (
-                  <small className="text-danger">Campo requerido</small>
-                )}
-              </div>
 
 
 
               <div className=" col-12 col-sm-6">
                 <label>Rol</label>
-                <select className="form-control" {...register("role")}>
-                  {roleList.map((option) => (
+                <select className="form-control" {...register("type")}>
+                  {typeList.map((option) => (
                     <option key={option.id} value={option.id}>
                       {option.name}
                     </option>
@@ -390,9 +324,9 @@ const AdminUsers = () => {
                     <table className="table" style={{ fontSize: '14px' }}>
                       <thead className="table-info">
                         <tr>
+                          <th>Identificación</th>
                           <th>Nombre</th>
-                          <th>Username</th>
-                          <th>Role</th>
+                          <th>type</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -404,9 +338,9 @@ const AdminUsers = () => {
 
                           return (
                             <tr key={item.id}  >
+                              <td>{item.identification}</td>
                               <td>{item.name}</td>
-                              <td>{item.username}</td>
-                              <td>{item.role}</td>
+                              <td>{item.type}</td>
                               <td style={{ width: "30px" }}>
                                 <a
                                   onClick={() => getUser(item.id)}>
@@ -431,4 +365,4 @@ const AdminUsers = () => {
   );
 };
 
-export default AdminUsers;
+export default AdminPersons;

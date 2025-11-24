@@ -9,7 +9,7 @@ import {
   cilDescription,
   cilDrop,
   cilExternalLink,
-  cilPen,
+  cilUser,
   cilPenAlt,
   cilList,
   cilContact,
@@ -26,6 +26,19 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 const _nav = [
   {
     component: CNavItem,
+    name: 'Ingresar persona',
+    to: '/person/insert',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Usuarios',
+     to: '/admin/users',
+    icon: <CIcon icon={cilShieldAlt} customClassName="nav-icon" />,
+  },
+  
+  {
+    component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
@@ -33,31 +46,6 @@ const _nav = [
       color: 'info',
       text: 'NEW',
     },
-  },
-  {
-    component: CNavItem,
-    name: 'Ingresar persona',
-    to: '/person/insert',
-    icon: <CIcon icon={cilNoteAdd} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavGroup,
-    name: 'Administrador',
-    to: '/admin',
-    icon: <CIcon icon={cilShieldAlt} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Usuarios',
-        to: '/admin/users',
-      },
-      
-      {
-        component: CNavItem,
-        name: 'Cargos',
-        to: '/admin/cargos',
-      }
-    ],
   },
   {
     component: CNavTitle,
